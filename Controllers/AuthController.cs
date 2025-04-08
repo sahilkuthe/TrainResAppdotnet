@@ -44,8 +44,42 @@ namespace TrainResApp.Controllers
             return Ok("User registered successfully.");
 
         }
-        
-    
+
+        [HttpPost]
+        [Route("api/login")]
+        public IHttpActionResult Login(LoginDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = db.Users.FirstOrDefault(u => u.email == dto.Email);
+            if (user == null)
+                return Unauthorized(); // Email not found
+
+            var hashedInputPassword = HashPassword(dto.Password);
+
+            if (user.password_hash != hashedInputPassword)
+                return Unauthorized(); // Incorrect password
+
+            return Ok(new
+            {
+                Message = "Login successful",
+                User = new
+                {
+                    user.user_id,
+                    user.name,
+                    user.email,
+                    user.phone,
+                    user.gender,
+                    user.age,
+                    user.address,
+                    user.role
+                }
+            });
+        }
+
+
+
         private string HashPassword(string password)
         {
             using (var sha = SHA256.Create())

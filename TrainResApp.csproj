@@ -175,6 +175,7 @@
     <Compile Include="Models\Coach.cs">
       <DependentUpon>TrainREsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginDto.cs" />
     <Compile Include="Models\RegisterUserDto.cs" />
     <Compile Include="Models\Reservation.cs">
       <DependentUpon>TrainREsModel.tt</DependentUpon>
